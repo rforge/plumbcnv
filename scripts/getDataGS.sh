@@ -170,16 +170,16 @@ Usage: getDataGS [-h] [-B] [-T] [-N] [-S] [-L] [-F] [-l] [-C] [-D] [-M] [-m] [-R
 
 ### parse command line options ###
 
-if hash getopt 2>/dev/null; then gotone="yes"; else gotone=$(if hash getopts 2>/dev/null; then echo "yes"; else echo "no"; fi) ; fi
+if hash getopts 2>/dev/null; then gotone="yes"; else echo "no"; fi
+
 if [ "$gotone" = "no" ]
 then
-   echo need to install function 'getopts' or 'getopt' to run this script
+   echo need to install posix function 'getopts' to run this script
    exit
 fi
 
-if hash getopt 2>/dev/null; then getFun=(which getopt); else getFun=(which getopts); fi
 
-while $getFun B:T:N:m:F:O:x:y:z:a:b:c:d:hfltLSCDMGRPX OPT;
+while getopts B:T:N:m:F:O:x:y:z:a:b:c:d:hfltLSCDMGRPX OPT;
 do
     case $OPT in
     h)  echo "$USAGE"
