@@ -385,9 +385,9 @@ then
        file=$(head -$i FILES.TMP | tail -1 )
        if [ "$nexttype" = "gzip" ];
        then 
-        zcat $loco/$file | grep $SNPID1 | cut -f $SampCol  > $file.ids ;
+        zcat $loco/$file | grep -a $SNPID1 | cut -f $SampCol  > $file.ids ;
        else
-        grep $SNPID1 $loco/$file | cut -f $SampCol  > $file.ids
+        grep -a $SNPID1 $loco/$file | cut -f $SampCol  > $file.ids
        fi
     done
 
@@ -612,15 +612,15 @@ then
     then 
         echo "extracting from zip file (*.gz)"
         SUBID1=$(zcat $mfnm | head -50 | tail -1 | cut -f $mSampCol)
-        zcat $mfnm | head -"$MaxSnp" | grep $SUBID1 | cut -f $mchrCol  > snpdata1.temp 
-        zcat $mfnm | head -"$MaxSnp" | grep $SUBID1 | cut -f $mSnpCol  > snpdata2.temp 
-        zcat $mfnm | head -"$MaxSnp" | grep $SUBID1 | cut -f $mposCol  > snpdata3.temp 
+        zcat $mfnm | head -"$MaxSnp" | grep -a $SUBID1 | cut -f $mchrCol  > snpdata1.temp 
+        zcat $mfnm | head -"$MaxSnp" | grep -a $SUBID1 | cut -f $mSnpCol  > snpdata2.temp 
+        zcat $mfnm | head -"$MaxSnp" | grep -a $SUBID1 | cut -f $mposCol  > snpdata3.temp 
     else
         echo "extracting from uncompressed text file (*.txt)"
         SUBID1=$(head -50 $mfnm  | tail -1 | cut -f $mSampCol)  
-        head -"$MaxSnp" $mfnm  | grep $SUBID1 | cut -f $mchrCol  > snpdata1.temp 
-        head -"$MaxSnp" $mfnm  | grep $SUBID1 | cut -f $mSnpCol  > snpdata2.temp 
-        head -"$MaxSnp" $mfnm  | grep $SUBID1 | cut -f $mposCol  > snpdata3.temp 
+        head -"$MaxSnp" $mfnm  | grep -a $SUBID1 | cut -f $mchrCol  > snpdata1.temp 
+        head -"$MaxSnp" $mfnm  | grep -a $SUBID1 | cut -f $mSnpCol  > snpdata2.temp 
+        head -"$MaxSnp" $mfnm  | grep -a $SUBID1 | cut -f $mposCol  > snpdata3.temp 
     fi
   else
     echo "Extracting SNP support from support file, e.g, bim, vcf, map, etc."
@@ -694,7 +694,7 @@ then
   plink --lfile snpdata  --map3 --missing --hardy --missing-genotype '-' --out snpdataout --noweb --geno "$snpcr" --hwe "$hwe" --mind "$sampcr" --allow-no-sex
 
   mv snpdataout.hwe snpdataout.hwe.messy
-  grep ALL snpdataout.hwe.messy  > snpdataout2.hwe
+  grep -a ALL snpdataout.hwe.messy  > snpdataout2.hwe
   head -1 snpdataout.hwe.messy > snpdataout1.hwe
   cat snpdataout1.hwe snpdataout2.hwe > snpdataout.hwe
   rm snpdataout1.hwe snpdataout2.hwe snpdataout.hwe.messy
